@@ -139,9 +139,7 @@ class Cluster(object) :
         --------------------
             centroid -- Point, centroid of cluster
         """
-        
-        ### ========== TODO : START ========== ###
-        # part 2b: implement
+
         # set the centroid label to any value (e.g. the most common label in this cluster)
         
         labels = []
@@ -154,7 +152,7 @@ class Cluster(object) :
 
         centroid = Point('C', cluster_label[0], index)
         return centroid
-        ### ========== TODO : END ========== ###
+
     
     
     def medoid(self) :
@@ -167,8 +165,7 @@ class Cluster(object) :
             medoid -- Point, medoid of this cluster
         """
         
-        ### ========== TODO : START ========== ###
-        # part 2b: implement
+
         distances = {}
 
         # find distance of each point to all other points except itself
@@ -186,7 +183,7 @@ class Cluster(object) :
         # get point with minimum avg distance
         medoid = min(distances, key=distances.get)
         return medoid
-        ### ========== TODO : END ========== ###
+
     
     
     def equivalent(self, other) :
@@ -240,13 +237,11 @@ class ClusterSet(object):
             centroids -- list of Points, centroids of each cluster in this cluster set
         """
         
-        ### ========== TODO : START ========== ###
-        # part 2b: implement
         centroids = []
         for cluster in self.members:
           centroids.append(cluster.centroid())
         return centroids
-        ### ========== TODO : END ========== ###
+
     
     
     def medoids(self) :
@@ -257,14 +252,12 @@ class ClusterSet(object):
         --------------------
             medoids -- list of Points, medoids of each cluster in this cluster set
         """
-        
-        ### ========== TODO : START ========== ###
-        # part 2b: implement
+
         medoids = []
         for cluster in self.members:
           medoids.append(cluster.medoid())
         return medoids
-        ### ========== TODO : END ========== ###
+
     
     
     def score(self) :
@@ -350,10 +343,9 @@ def random_init(points, k) :
     --------------------
         initial_points -- list of k Points, initial cluster centers
     """
-    ### ========== TODO : START ========== ###
-    # part 2c: implement (hint: use np.random.choice)
+
     return np.random.choice(points, size = k, replace = False)
-    ### ========== TODO : END ========== ###
+
 
 
 def cheat_init(points) :
@@ -373,8 +365,7 @@ def cheat_init(points) :
     --------------------
         initial_points -- list of k Points, initial cluster centers
     """
-    ### ========== TODO : START ========== ###
-    # part 2f: implement
+
     initial_points = []
     labels = []
     for point in points:
@@ -390,7 +381,7 @@ def cheat_init(points) :
       clusters.append(cluster)
     initial_points = [cluster.medoid() for cluster in clusters]
     return initial_points
-    ### ========== TODO : END ========== ###
+
 
 def kAverage(points, k, average, init='random', plot=True):
     count = 1
@@ -457,19 +448,9 @@ def kMeans(points, k, init='random', plot=False) :
     --------------------
         k_clusters -- ClusterSet, k clusters
     """
-    
-    ### ========== TODO : START ========== ###
-    # part 2c: implement
-    # Hints:
-    #   (1) On each iteration, keep track of the new cluster assignments
-    #       in a separate data structure. Then use these assignments to create
-    #       a new ClusterSet object and update the centroids.
-    #   (2) Repeat until the clustering no longer changes.
-    #   (3) To plot, use plot_clusters(...).
-
 
     return kAverage(points, k, ClusterSet.centroids, init=init, plot=plot)
-    ### ========== TODO : END ========== ###
+
 
 
 def kMedoids(points, k, init='random', plot=False) :
@@ -477,11 +458,10 @@ def kMedoids(points, k, init='random', plot=False) :
     Cluster points in k clusters using k-medoids clustering.
     See kMeans(...).
     """
-    ### ========== TODO : START ========== ###
-    # part 2e: implement
+
     
     return kAverage(points, k, ClusterSet.medoids, init=init, plot=plot)
-    ### ========== TODO : END ========== ###
+
 
 """## Utilities"""
 
@@ -585,9 +565,7 @@ def generate_points_2d(N, seed=1234) :
 ######################################################################
 
 def main() :
-    ### ========== TODO : START ========== ###
-    # part 1: explore LFW data set
-    #part a
+    #explore LFW data set
     X, y = get_lfw_data()
     show_image(X[2])
     show_image(X[4])
@@ -595,11 +573,9 @@ def main() :
     mean = np.mean(X, axis = 0)
     show_image(mean)
 
-    #part b
     U, mu= util.PCA(X)
     plot_gallery([vec_to_image(U[:,i]) for i in range(12)]) 
 
-    #part c
     l_components = [1, 10, 50, 100, 500, 1288]
     plot_gallery(X[:12], title = '12 original images' )
     for l in l_components:
@@ -607,24 +583,15 @@ def main() :
       rec = reconstruct_from_PCA(Y, U1, mu)
       print(l)
       plot_gallery(rec[:12], title = '12 new images')
-    ### ========== TODO : END ========== ###
-    
-    
-    
-    ### ========== TODO : START ========== ###
-    # part 2d-2f: cluster toy dataset
+
+    # cluster toy dataset
     np.random.seed(1234)
     toy_dataset = generate_points_2d(20)
     kMeans(toy_dataset, 3, init = 'random', plot = True)
     kMedoids(toy_dataset, 3, init = 'random', plot = True)
     kMeans(toy_dataset, 3, init = 'cheat', plot = True)
     kMedoids(toy_dataset, 3, init = 'cheat', plot = True)
-    ### ========== TODO : END ========== ###
-    
-    
-    
-    ### ========== TODO : START ========== ###    
-    # part 3a: cluster faces
+
     np.random.seed(1234)
     X1, y1 = util.limit_pics(X, y, [4, 6, 13, 16], 40)
     points = build_face_image_points(X1, y1)
@@ -638,7 +605,7 @@ def main() :
 
 
         
-    # part 3b: explore effect of lower-dimensional representations on clustering performance
+    #explore effect of lower-dimensional representations on clustering performance
     np.random.seed(1234)
     U, mu = util.PCA(X)
     X1, y1 = util.limit_pics(X, y, [4, 13], 40)
@@ -664,7 +631,7 @@ def main() :
     plt.show()
 
     
-    # part 3c: determine ``most discriminative'' and ``least discriminative'' pairs of images
+    # determine ``most discriminative'' and ``least discriminative'' pairs of images
     np.random.seed(1234)
     sets = set(y)
     number = len(sets)
