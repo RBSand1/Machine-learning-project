@@ -12,7 +12,7 @@ Original file is located at
 """
 
 """
-Author      : Yi-Chieh Wu, Sriram Sankararaman
+Author      : Yi-Chieh Wu, Sriram Sankararaman, Qianchi Huang
 """
 
 # numpy and scipy libraries
